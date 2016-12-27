@@ -1,0 +1,28 @@
+django-admin startproject <name_of_project>
+python manage.py runserver
+python manage.py startapp <app_name>
+python manage.py migrate
+python manage.py makemigrations <app_name>
+    - After running this, always make sure to re-run cmd #4 ... migrate, to make(execute) the migrations complete
+    
+python manage.py shell
+    -Always first import the models that u will work on
+    -Can check out what each model has by running: <model_name>.objects.all()
+    -U can add data to the models by running instances/calling the constructor, and filling each column respectively and then ...
+    -... u can save the data by running: <instance_name/obj_name>.save()
+    -Now u can also access the data u just input by running: <instance_name/obj_name>.<column_name>
+    -Another way to add data wud be to call an empty constructor of the model name and then ...
+    -... adding data to each column name individually like: <instance_name/obj_name>.<column_name> = <column_value>
+    -then run the save() method to commit the data.
+
+    -U can run several filter operations in the shell by running: <model_name>.objects.filter(id=1/artist=<artist_name>/...whatever)
+                                                                                   ....filter(artist__startswith='Taylor'/__endswith=...)
+
+    -To add data to a related table in a DB, There are many ways to do so, 2 of which are discussed below;
+        1. First reference the parent table using the primary key e.g. album1 = Album.objects.get(pk=1)
+           Then create an instance of the child table and fill in the fields with foreign key being the reference to parent table i.e. album1, and finally run the save method to commit the data to the DB.
+        2. Using related object sets. First reference the parent table using the primary key e.g. album2 = Album.objects.get(pk=2)
+           Then u can list all the songs related to this album object, if any by: album2.<child_table_all_small_letters>_set.all() e.g. album2.song_set.all(). [To get the count on the number items => album2.song_set.count()]
+           To add data, u use the create function of the related objects e.g. album2.song_set.create(<name_of_fields>=<values>). Note that u do not need to explicitly include the foreign key in this case since it's referenced when creating the object set. Also, note that the save() method does not need to be explicitly called wen u use the create() method.
+
+python manage.py createsuperuser             #To create the admin
